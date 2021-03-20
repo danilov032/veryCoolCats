@@ -1,7 +1,6 @@
 package com.example.catstestapp.ui.main
 
 import android.annotation.SuppressLint
-import com.example.catstestapp.DB.ReadoutModelDao
 import com.example.catstestapp.models.Cat
 import com.example.catstestapp.models.ModelCatFavourites
 import com.example.catstestapp.ui.Interactor
@@ -77,7 +76,7 @@ class MainPresenter @Inject constructor(
 
     @SuppressLint("CheckResult")
     fun onClickDownload(cat: Cat) {
-        if(!interactor.chechPermission())
+        if(!interactor.checkPermission())
             viewState.installPermission()
 
         interactor.downloadCat(cat)
