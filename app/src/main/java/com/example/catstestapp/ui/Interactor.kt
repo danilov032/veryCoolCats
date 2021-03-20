@@ -42,9 +42,7 @@ class Interactor @Inject constructor(
         favouritesRepository.addCat(cat)
     }
 
-    fun delCat(cat: ModelCatFavourites) {
-        favouritesRepository.delCat(cat)
-    }
+    fun delCat(cat: ModelCatFavourites) =  favouritesRepository.delCat(cat)
 
     fun getFavouritesCats() : Observable<List<Cat>> =
         Observable.zip(
@@ -63,14 +61,12 @@ class Interactor @Inject constructor(
             }
         )
 
-    fun downloadCat(cat: Cat): Observable<Boolean> =
-        Observable.just(downloadRepository.saveCat(cat))
+    fun downloadCat(cat: Cat): Observable<Boolean> = Observable.just(downloadRepository.saveCat(cat))
 
-    fun chechPermission() = downloadRepository.checkPermission()
+    fun checkPermission() = downloadRepository.checkPermission()
 
     fun String.md5(): String {
         val md = MessageDigest.getInstance("MD5")
         return BigInteger(1, md.digest(toByteArray())).toString(16).padStart(32, '0')
     }
-
 }
