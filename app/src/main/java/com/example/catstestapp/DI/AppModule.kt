@@ -13,7 +13,7 @@ import dagger.Provides
 class AppModule(private val application: Application) {
 
     @Provides
-    fun provideMainRepositiry(): MainRepository {
+    fun provideMainRepository(): MainRepository {
         return MainRepository(apiService)
     }
     @get:Provides
@@ -25,7 +25,7 @@ class AppModule(private val application: Application) {
     }
 
     @Provides
-    fun provideDownloadRepositiry(): DownloadRepository {
+    fun provideDownloadRepository(): DownloadRepository {
         return DownloadRepository(application.applicationContext)
     }
 }

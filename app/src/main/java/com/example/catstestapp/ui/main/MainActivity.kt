@@ -1,14 +1,11 @@
 package com.example.catstestapp.ui.main
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catstestapp.CustomAdapter
 import com.example.catstestapp.DI.AppModule
@@ -37,7 +34,7 @@ class MainActivity : MvpAppCompatActivity(),
         DaggerAppComponent.builder()
             .appModule(AppModule(application))
             .build()
-            .inject(this)
+            .injectMainActivity(this)
 
         return presenterLazy.get()
     }
@@ -59,7 +56,6 @@ class MainActivity : MvpAppCompatActivity(),
         buttonFavourites.setOnClickListener { presenter.showFavourites() }
     }
 
-    @SuppressLint("CheckResult")
     override fun showCats(list: List<Cat>) {
         customAdapter.updateItems(list)
     }
@@ -72,7 +68,7 @@ class MainActivity : MvpAppCompatActivity(),
         )
     }
 
-    override fun addFavouriteCatsOk() {
+    override fun shoeSuccessfulResult() {
         Toast.makeText(applicationContext, "Картинка добавлена", Toast.LENGTH_SHORT).show()
     }
 
@@ -81,7 +77,7 @@ class MainActivity : MvpAppCompatActivity(),
         startActivity(intent)
     }
 
-    override fun downloadCatOk() {
+    override fun showSuccessfulResultDownload() {
         Toast.makeText(applicationContext, "Картинка загружена", Toast.LENGTH_SHORT).show()
     }
 

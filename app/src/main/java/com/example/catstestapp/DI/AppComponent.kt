@@ -7,6 +7,6 @@ import dagger.Component
 @Component(modules = [AppModule::class])
 interface AppComponent {
 
-    fun inject(activity: MainActivity)
-    fun injectFavourites(activity: FavouritesActivity)
+    fun injectMainActivity(activity: MainActivity)
+    fun injectFavouritesActivity(activity: FavouritesActivity)
 }

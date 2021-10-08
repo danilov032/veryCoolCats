@@ -1,6 +1,5 @@
 package com.example.catstestapp.ui.favorites
 
-import android.annotation.SuppressLint
 import com.example.catstestapp.models.Cat
 import com.example.catstestapp.models.ModelCatFavourites
 import com.example.catstestapp.ui.Interactor
@@ -18,7 +17,6 @@ class FavouritesPresenter @Inject constructor(
     private val interactor: Interactor
 ):MvpPresenter<FavouritesContractView>(){
 
-    @SuppressLint("CheckResult")
     override fun attachView(view: FavouritesContractView) {
         super.attachView(view)
 
@@ -28,11 +26,10 @@ class FavouritesPresenter @Inject constructor(
             .subscribe({
                 viewState.showCats(it)
             }, {
-                viewState.showError("Ошибка подгрузки изображенией")
+                viewState.showError("Ошибка подключения к базе данных.")
             })
     }
 
-    @SuppressLint("CheckResult")
     fun onClickInFavorites(cat: Cat) {
         Observable.just(cat)
             .map { ModelCatFavourites(url = it.url) }
@@ -49,13 +46,12 @@ class FavouritesPresenter @Inject constructor(
             })
     }
 
-    @SuppressLint("CheckResult")
     fun onClickDownload(cat: Cat) {
         if(!interactor.checkPermission())
             viewState.installPermission()
 
         interactor.downloadCat(cat)
-            .delay(300, TimeUnit.MILLISECONDS )
+            .delay(TIME_DALAY, TimeUnit.MILLISECONDS )
             .flatMap {
                 if (it) interactor.getFavouritesCats()
                 else throw RuntimeException()
@@ -64,9 +60,13 @@ class FavouritesPresenter @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 viewState.showCats(it)
-                viewState.downloadCatOk()
+                viewState.showSuccessfulResultDownload()
             }, {
-                viewState.showError("Ошибка ошибочка")
+                viewState.showError("Ошибка скачивания")
             })
+    }
+
+    companion object{
+        private const val TIME_DALAY: Long = 300
     }
 }

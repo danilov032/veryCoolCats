@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.catstestapp.DB.ReadoutModelDao
 import com.example.catstestapp.models.ModelCatFavourites
 
-@Database(entities = arrayOf(ModelCatFavourites::class),version = 1)
+@Database(entities = [ModelCatFavourites::class],version = 1)
 abstract class dbAbstract: RoomDatabase(){
     abstract fun catsDao(): ReadoutModelDao
 

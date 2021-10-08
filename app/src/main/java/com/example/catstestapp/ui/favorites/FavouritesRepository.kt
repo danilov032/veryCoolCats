@@ -11,15 +11,7 @@ class FavouritesRepository @Inject constructor(
 
     fun selectCats():Observable<List<ModelCatFavourites>> = dbCatsFavourites.getCats()
 
-    fun addCat(cat: ModelCatFavourites){
-        with(dbCatsFavourites) {
-            this.insertCat(cat)
-        }
-    }
+    fun addCat(cat: ModelCatFavourites) = dbCatsFavourites.insertCat(cat)
 
-    fun delCat(cat: ModelCatFavourites) {
-        with(dbCatsFavourites) {
-            this.deleteCat(cat.url)
-        }
-    }
+    fun delCat(cat: ModelCatFavourites) = dbCatsFavourites.deleteCat(cat.url)
 }

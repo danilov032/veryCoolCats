@@ -1,6 +1,5 @@
 package com.example.catstestapp.ui.main
 
-import android.annotation.SuppressLint
 import com.example.catstestapp.models.Cat
 import com.example.catstestapp.models.ModelCatFavourites
 import com.example.catstestapp.ui.Interactor
@@ -9,7 +8,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
 import moxy.MvpPresenter
-import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -18,16 +16,18 @@ class MainPresenter @Inject constructor(
     private val interactor: Interactor
 ) : MvpPresenter<MainContractView>() {
 
-    @SuppressLint("CheckResult")
     override fun attachView(view: MainContractView) {
         super.attachView(view)
         interactor.getCats()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                viewState.showCats(it)
-            }, {
-                viewState.showError("Выбериет изображение")
+            .subscribe({ listCats ->
+                viewState.showCats(listCats)
+            }, { error ->
+                when (error) {
+                    is java.net.UnknownHostException -> viewState.showError("Отсутствует подключение к интернету.")
+                    else -> viewState.showError("Неизвестная ошибка.")
+                }
             })
     }
 
@@ -36,8 +36,7 @@ class MainPresenter @Inject constructor(
         else deleteCat(cat)
     }
 
-    @SuppressLint("CheckResult")
-    private fun addCat(cat: Cat){
+    private fun addCat(cat: Cat) {
         Observable.just(cat)
             .map { ModelCatFavourites(url = it.url) }
             .doOnNext {
@@ -49,12 +48,11 @@ class MainPresenter @Inject constructor(
             .subscribe({
                 viewState.showCats(it)
             }, {
-                viewState.showError("Выбериет изображение")
+                viewState.showError("Ошибка добавления в избранное.")
             })
     }
 
-    @SuppressLint("CheckResult")
-    private fun deleteCat(cat: Cat){
+    private fun deleteCat(cat: Cat) {
         Observable.just(cat)
             .map { ModelCatFavourites(url = it.url) }
             .doOnNext {
@@ -66,7 +64,7 @@ class MainPresenter @Inject constructor(
             .subscribe({
                 viewState.showCats(it)
             }, {
-                viewState.showError("Выбериет изображение")
+                viewState.showError("Изображение не выбранно. Выберите изображение")
             })
     }
 
@@ -74,13 +72,12 @@ class MainPresenter @Inject constructor(
         viewState.transitionFavouritesCats()
     }
 
-    @SuppressLint("CheckResult")
     fun onClickDownload(cat: Cat) {
-        if(!interactor.checkPermission())
+        if (!interactor.checkPermission())
             viewState.installPermission()
 
         interactor.downloadCat(cat)
-            .delay(300, TimeUnit.MILLISECONDS )
+            .delay(300, TimeUnit.MILLISECONDS)
             .flatMap {
                 if (it) interactor.getCats()
                 else throw RuntimeException()
@@ -89,9 +86,9 @@ class MainPresenter @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 viewState.showCats(it)
-                viewState.downloadCatOk()
+                viewState.showSuccessfulResultDownload()
             }, {
-                viewState.showError("Ошибка ошибочка")
+                viewState.showError("Неизвестная ошибка загрузки изображения.")
             })
     }
 }

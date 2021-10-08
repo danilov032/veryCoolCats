@@ -9,8 +9,8 @@ import moxy.viewstate.strategy.StateStrategyType
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface FavouritesContractView : MvpView{
 
-    fun showCats(list: List<Cat>)
-    fun showError(strErr: String)
+    fun showCats(listCats: List<Cat>)
+    fun showError(messageError: String)
     fun installPermission()
-    fun downloadCatOk()
+    fun showSuccessfulResultDownload()
 }

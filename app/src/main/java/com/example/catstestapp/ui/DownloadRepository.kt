@@ -1,7 +1,6 @@
 package com.example.catstestapp.ui
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.content.Context
 import android.content.pm.PackageManager
@@ -15,16 +14,16 @@ import java.io.File
 import java.math.BigInteger
 import java.security.MessageDigest
 
-class DownloadRepository (
+class DownloadRepository(
     private val context: Context
 ) {
 
     private val manager: DownloadManager by lazy { context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager }
 
-    fun checkPermission() : Boolean {
+    fun checkPermission(): Boolean {
         val permissionStatus =
             ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
-        if(permissionStatus == -1) return false
+        if (permissionStatus == -1) return false
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_DENIED
         } else {
@@ -32,18 +31,19 @@ class DownloadRepository (
         }
     }
 
-    @SuppressLint("CheckResult")
-    fun saveCat(cat: Cat) : Boolean{
+    fun saveCat(cat: Cat): Boolean {
         val url = cat.url
         val request = DownloadManager.Request(Uri.parse(url))
         val extension = url.substring(url.lastIndexOf("."))
 
         val files = getFilesDownload()
+        val fileSearch = File(
+            Environment.getExternalStorageDirectory()
+                .toString() + "/" + Environment.DIRECTORY_DOWNLOADS.toString() + "/" + url.md5() + extension
+        )
 
-        val fileShearch = File(Environment.getExternalStorageDirectory().toString() + "/" + Environment.DIRECTORY_DOWNLOADS.toString() + "/" + url.md5() + extension)
-
-        if(files.contains(fileShearch))
-        return false
+        if (files.contains(fileSearch))
+            return false
 
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
         request.setTitle(url.md5())
@@ -64,13 +64,19 @@ class DownloadRepository (
     }
 
     private fun getFilesDownload(): kotlin.Array<File> {
-        val path = File(Environment.getExternalStorageDirectory().toString() + "/" + Environment.DIRECTORY_DOWNLOADS.toString())
-        return  path.listFiles()
+        val path = File(
+            Environment.getExternalStorageDirectory()
+                .toString() + "/" + Environment.DIRECTORY_DOWNLOADS.toString()
+        )
+        return path.listFiles()
     }
 
     fun getFilesDownloadO(): Observable<List<File>> {
-        val path = File(Environment.getExternalStorageDirectory().toString() + "/" + Environment.DIRECTORY_DOWNLOADS.toString())
-        return  Observable.just(listOf())
+        val path = File(
+            Environment.getExternalStorageDirectory()
+                .toString() + "/" + Environment.DIRECTORY_DOWNLOADS.toString()
+        )
+        return Observable.just(listOf())
 //        return  Observable.just(path.listFiles().toList())
     }
 }

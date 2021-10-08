@@ -1,9 +1,10 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.moxy-community:moxy-material:2.0.2@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ba9dbff4bdc7b32d5041895e38325eef/jetified-moxy-material-2.0.2/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ba9dbff4bdc7b32d5041895e38325eef/jetified-moxy-material-2.0.2/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ba9dbff4bdc7b32d5041895e38325eef/jetified-moxy-material-2.0.2/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/44811e02c9b6a1339d1845aab3c18da2/transformed/jetified-moxy-material-2.0.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/811bc71bfffd701f3fe6f28f77832df8/transformed/jetified-moxy-material-2.0.2/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/811bc71bfffd701f3fe6f28f77832df8/transformed/jetified-moxy-material-2.0.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/811bc71bfffd701f3fe6f28f77832df8/transformed/jetified-moxy-material-2.0.2/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

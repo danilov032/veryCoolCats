@@ -1,6 +1,5 @@
 package com.example.catstestapp.ui
 
-import android.annotation.SuppressLint
 import com.example.catstestapp.models.Cat
 import com.example.catstestapp.models.ModelCatFavourites
 import com.example.catstestapp.ui.favorites.FavouritesRepository
@@ -8,7 +7,6 @@ import com.example.catstestapp.ui.main.MainRepository
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
-import io.reactivex.schedulers.Schedulers
 import java.io.File
 import java.math.BigInteger
 import java.security.MessageDigest
@@ -22,7 +20,7 @@ class Interactor @Inject constructor(
 
     fun getCats(): Observable<List<Cat>> =
         Observable.zip (
-                mainRepository.apiService.getListCats(25, 20),
+                mainRepository.searchCat(25, 20),
                 favouritesRepository.selectCats(),
                 downloadRepository.getFilesDownloadO(),
                 Function3<List<Cat>, List<ModelCatFavourites>, List<File>,List<Cat>> { all, favorite, file ->

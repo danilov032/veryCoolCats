@@ -19,7 +19,7 @@ import javax.inject.Inject
 class FavouritesActivity : MvpAppCompatActivity(),
     FavouritesContractView {
 
-    val customAdapter: CustomAdapter by lazy { CustomAdapter(
+    private val customAdapter: CustomAdapter by lazy { CustomAdapter(
         { cat -> presenter.onClickInFavorites(cat) },
         { cat -> presenter.onClickDownload(cat) }
     ) }
@@ -35,7 +35,7 @@ class FavouritesActivity : MvpAppCompatActivity(),
         DaggerAppComponent.builder()
             .appModule(AppModule(application))
             .build()
-            .injectFavourites(this)
+            .injectFavouritesActivity(this)
 
         return presenterLazy.get()
     }
@@ -66,7 +66,7 @@ class FavouritesActivity : MvpAppCompatActivity(),
         Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show()
     }
 
-    override fun downloadCatOk() {
+    override fun showSuccessfulResultDownload() {
         Toast.makeText(applicationContext, "Картинка загружена", Toast.LENGTH_SHORT).show()
     }
 
