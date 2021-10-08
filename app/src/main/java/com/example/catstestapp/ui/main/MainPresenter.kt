@@ -39,14 +39,14 @@ class MainPresenter @Inject constructor(
     private fun addCat(cat: Cat) {
         Observable.just(cat)
             .map { ModelCatFavourites(url = it.url) }
-            .doOnNext {
-                interactor.addCat(it)
+            .doOnNext { catElement ->
+                interactor.addCat(catElement)
             }
             .flatMap { interactor.getCats() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                viewState.showCats(it)
+            .subscribe({ catElement ->
+                viewState.showCats(catElement)
             }, {
                 viewState.showError("Ошибка добавления в избранное.")
             })
@@ -61,8 +61,8 @@ class MainPresenter @Inject constructor(
             .flatMap { interactor.getCats() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                viewState.showCats(it)
+            .subscribe({ catElement ->
+                viewState.showCats(catElement)
             }, {
                 viewState.showError("Изображение не выбранно. Выберите изображение")
             })
@@ -77,18 +77,22 @@ class MainPresenter @Inject constructor(
             viewState.installPermission()
 
         interactor.downloadCat(cat)
-            .delay(300, TimeUnit.MILLISECONDS)
+            .delay(TIME_DALAY, TimeUnit.MILLISECONDS)
             .flatMap {
                 if (it) interactor.getCats()
                 else throw RuntimeException()
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                viewState.showCats(it)
+            .subscribe({ catElement ->
+                viewState.showCats(catElement)
                 viewState.showSuccessfulResultDownload()
             }, {
                 viewState.showError("Неизвестная ошибка загрузки изображения.")
             })
+    }
+
+    companion object {
+        private const val TIME_DALAY: Long = 300
     }
 }

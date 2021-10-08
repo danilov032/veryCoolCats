@@ -23,8 +23,8 @@ class FavouritesPresenter @Inject constructor(
         interactor.getFavouritesCats()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                viewState.showCats(it)
+            .subscribe({ listCats ->
+                viewState.showCats(listCats)
             }, {
                 viewState.showError("Ошибка подключения к базе данных.")
             })
@@ -39,8 +39,8 @@ class FavouritesPresenter @Inject constructor(
             .flatMap { interactor.getFavouritesCats() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                viewState.showCats(it)
+            .subscribe({ catElement ->
+                viewState.showCats(catElement)
             }, {
                 viewState.showError("Выбериет изображение")
             })
@@ -58,8 +58,8 @@ class FavouritesPresenter @Inject constructor(
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                viewState.showCats(it)
+            .subscribe({ catElement ->
+                viewState.showCats(catElement)
                 viewState.showSuccessfulResultDownload()
             }, {
                 viewState.showError("Ошибка скачивания")
