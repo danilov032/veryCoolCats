@@ -2,18 +2,31 @@ package com.example.catstestapp.ui.main
 
 import com.example.catstestapp.models.Cat
 import com.example.catstestapp.ApiService
-import com.example.catstestapp.models.CatResponse
+import com.example.catstestapp.mappers.CatModelMapper
+import com.example.catstestapp.CatsDataStore
 import io.reactivex.Observable
 
-class MainRepository(private val apiService: ApiService) {
+class MainRepository(
+    private val apiService: ApiService,
+    private val dataStore: CatsDataStore,
+    private val mapper: CatModelMapper
+) {
 
     fun searchCat(page: Int, limit: Int): Observable<List<Cat>> =
-        mapList(apiService.getListCats(page, limit))
-
-    fun mapList(list: Observable<List<CatResponse>>): Observable<List<Cat>> =
-        list.map {
-            it.map {
-                Cat(url = it.url)
+        dataStore.getListCats()
+            .switchIfEmpty {
+                apiService.getListCats(page, limit)
+                    .map { responseList ->
+                        responseList.map { response ->
+                            mapper(response)
+                        }
+                    }
+                    .doOnNext {
+                        dataStore.updateListCats(it)
+                    }
             }
-        }
+
+    fun clearDataStore(){
+        dataStore.clear()
+    }
 }

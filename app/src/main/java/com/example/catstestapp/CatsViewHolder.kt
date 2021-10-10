@@ -26,10 +26,6 @@ class CatsViewHolder(
             if (cat.isFavourites)Color.parseColor("#FFCD3166")
             else  Color.parseColor("#000000")
         )
-        buttonDownload.setColorFilter(
-            if (cat.isDownloads)Color.parseColor("#FF57BA5B")
-            else  Color.parseColor("#000000")
-        )
 
         Glide
             .with(view.context)

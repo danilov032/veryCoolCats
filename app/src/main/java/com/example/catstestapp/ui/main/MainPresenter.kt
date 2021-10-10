@@ -92,6 +92,11 @@ class MainPresenter @Inject constructor(
             })
     }
 
+    override fun onDestroy() {
+        interactor.clearDataStore()
+        super.onDestroy()
+    }
+
     companion object {
         private const val TIME_DALAY: Long = 300
     }
