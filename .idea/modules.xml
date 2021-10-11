@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/CatsTestApp.iml" filepath="$PROJECT_DIR$/.idea/modules/CatsTestApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/CatsTestApp.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/CatsTestApp.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/veryCoolCats.CatsTestApp.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/veryCoolCats.CatsTestApp.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/weryCoolCats.CatsTestApp.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/weryCoolCats.CatsTestApp.app.iml" />
     </modules>
   </component>
 </project>
