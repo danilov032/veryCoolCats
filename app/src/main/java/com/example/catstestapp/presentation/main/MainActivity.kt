@@ -17,7 +17,8 @@ import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
-
+import android.view.Menu
+import android.view.MenuItem
 
 class MainActivity : MvpAppCompatActivity(),
     MainContractView {
@@ -51,8 +52,18 @@ class MainActivity : MvpAppCompatActivity(),
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = customAdapter
         }
+    }
 
-        buttonFavourites.setOnClickListener { presenter.showFavourites() }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.user_info_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.getItemId() === R.id.action_favorites) {
+            presenter.showFavourites()
+        }
+        return true
     }
 
     override fun showCats(list: List<Cat>) {
