@@ -39,7 +39,7 @@ class MainActivity : MvpAppCompatActivity(),
         return presenterLazy.get()
     }
 
-    val customAdapter: CustomAdapter by lazy { CustomAdapter(
+    private val customAdapter: CustomAdapter by lazy { CustomAdapter(
         { cat -> presenter.onClickInFavorites(cat) },
         { cat -> presenter.onClickDownload(cat) }
     ) }
@@ -60,14 +60,14 @@ class MainActivity : MvpAppCompatActivity(),
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.getItemId() === R.id.action_favorites) {
+        if (item.itemId == R.id.action_favorites) {
             presenter.showFavourites()
         }
         return true
     }
 
-    override fun showCats(list: List<Cat>) {
-        customAdapter.updateItems(list)
+    override fun showCats(listCats: List<Cat>) {
+        customAdapter.updateItems(listCats)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -91,8 +91,8 @@ class MainActivity : MvpAppCompatActivity(),
         Toast.makeText(applicationContext, "Картинка загружена", Toast.LENGTH_SHORT).show()
     }
 
-    override fun showError(strErr: String) {
-        Toast.makeText(applicationContext, strErr, Toast.LENGTH_SHORT).show()
+    override fun showError(messageError: String) {
+        Toast.makeText(applicationContext, messageError, Toast.LENGTH_SHORT).show()
     }
 
     companion object{

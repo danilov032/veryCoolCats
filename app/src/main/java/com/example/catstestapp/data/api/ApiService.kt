@@ -1,7 +1,7 @@
 package com.example.catstestapp.data.api
 
 import com.example.catstestapp.data.responses.CatResponse
-import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,7 +11,7 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET(GET_QUERY)
-    fun getListCats(@Query("page") perPage: Int,@Query("limit") limit: Int): Observable<List<CatResponse>>
+    fun getListCats(@Query("page") perPage: Int,@Query("limit") limit: Int): Single<List<CatResponse>>
 
     companion object Factory {
         fun create(): ApiService {

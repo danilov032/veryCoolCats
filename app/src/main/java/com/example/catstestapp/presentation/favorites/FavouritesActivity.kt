@@ -58,12 +58,12 @@ class FavouritesActivity : MvpAppCompatActivity(),
         }
     }
 
-    override fun showCats(list: List<Cat>) {
-        customAdapter.updateItems(list)
+    override fun showCats(listCats: List<Cat>) {
+        customAdapter.updateItems(listCats)
     }
 
-    override fun showError(str: String) {
-        Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show()
+    override fun showError(messageError: String) {
+        Toast.makeText(applicationContext, messageError, Toast.LENGTH_SHORT).show()
     }
 
     override fun showSuccessfulResultDownload() {

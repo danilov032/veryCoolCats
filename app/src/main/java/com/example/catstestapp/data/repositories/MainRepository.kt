@@ -4,7 +4,7 @@ import com.example.catstestapp.data.api.ApiService
 import com.example.catstestapp.data.datastore.CatsDataStore
 import com.example.catstestapp.data.mappers.CatModelMapper
 import com.example.catstestapp.domain.models.Cat
-import io.reactivex.Observable
+import io.reactivex.Single
 
 class MainRepository(
     private val apiService: ApiService,
@@ -12,7 +12,7 @@ class MainRepository(
     private val mapper: CatModelMapper
 ) {
 
-    fun searchCat(page: Int, limit: Int): Observable<List<Cat>> =
+    fun searchCat(page: Int, limit: Int): Single<List<Cat>> =
         dataStore.getListCats()
             .switchIfEmpty(
                 apiService.getListCats(page, limit)
@@ -21,7 +21,7 @@ class MainRepository(
                             mapper(response)
                         }
                     }
-                    .doOnNext { cats ->
+                    .doOnSuccess { cats ->
                         dataStore.updateListCats(cats)
                     }
             )

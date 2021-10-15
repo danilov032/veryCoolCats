@@ -3,7 +3,7 @@ package com.example.catstestapp.presentation.favorites
 import com.example.catstestapp.domain.models.Cat
 import com.example.catstestapp.domain.models.ModelCatFavourites
 import com.example.catstestapp.domain.interactor.Interactor
-import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
@@ -31,9 +31,9 @@ class FavouritesPresenter @Inject constructor(
     }
 
     fun onClickInFavorites(cat: Cat) {
-        Observable.just(cat)
+        Single.just(cat)
             .map { ModelCatFavourites(url = it.url) }
-            .doOnNext {
+            .doOnSuccess {
                 interactor.delCat(it)
             }
             .flatMap { interactor.getFavouritesCats() }

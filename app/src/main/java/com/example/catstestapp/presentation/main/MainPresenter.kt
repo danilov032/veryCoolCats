@@ -3,7 +3,7 @@ package com.example.catstestapp.presentation.main
 import com.example.catstestapp.domain.models.Cat
 import com.example.catstestapp.domain.models.ModelCatFavourites
 import com.example.catstestapp.domain.interactor.Interactor
-import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
@@ -37,9 +37,9 @@ class MainPresenter @Inject constructor(
     }
 
     private fun addCat(cat: Cat) {
-        Observable.just(cat)
+        Single.just(cat)
             .map { ModelCatFavourites(url = it.url) }
-            .doOnNext { catElement ->
+            .doOnSuccess { catElement ->
                 interactor.addCat(catElement)
             }
             .flatMap { interactor.getCats() }
@@ -53,9 +53,9 @@ class MainPresenter @Inject constructor(
     }
 
     private fun deleteCat(cat: Cat) {
-        Observable.just(cat)
+        Single.just(cat)
             .map { ModelCatFavourites(url = it.url) }
-            .doOnNext {
+            .doOnSuccess {
                 interactor.delCat(it)
             }
             .flatMap { interactor.getCats() }

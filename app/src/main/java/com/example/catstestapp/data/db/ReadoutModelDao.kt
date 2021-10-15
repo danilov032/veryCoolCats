@@ -5,13 +5,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.catstestapp.domain.models.ModelCatFavourites
-import io.reactivex.Observable
+import io.reactivex.Single
 
 @Dao
 interface ReadoutModelDao {
 
     @Query("SELECT * FROM ModelCatFavourites")
-    fun getCats(): Observable<List<ModelCatFavourites>>
+    fun getCats(): Single<List<ModelCatFavourites>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCat(vararg todo: ModelCatFavourites)
